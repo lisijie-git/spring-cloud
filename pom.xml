@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.3.5.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	
+	<groupId>com.lisijietech</groupId>
+	<artifactId>spring-cloud</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	
+	<modules>
+		<module>eureka-0</module>
+		<module>eureka-1</module>
+		<module>eureka-2</module>
+	</modules>
+	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
+		<spring-cloud.version>Hoxton.SR8</spring-cloud.version>
+		<mybatis-spring-boot-starter.version>2.1.3</mybatis-spring-boot-starter.version>
+		<fastjson.version>1.2.58</fastjson.version>
+		<jsoup.version>1.12.2</jsoup.version>
+		<poiooxml.version>4.1.2</poiooxml.version>
+		<pagehelper.version>5.1.11</pagehelper.version>
+		<pagehelper-starter.version>1.2.13</pagehelper-starter.version>
+		<zxing.core.version>3.3.3</zxing.core.version>
+		<zxing.javase.version>3.3.3</zxing.javase.version>
+		<javax-mail.version>1.6.2</javax-mail.version>
+		<javax-activation.version>1.2.0</javax-activation.version>
+	</properties>
+	
+	<dependencyManagement>
+		<dependencies>
+			<!-- SpringCloud依赖导入 -->
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			
+			<!-- 
+				SpringBoot相关，
+				这里主要是scope和option等一些标签属性不同，但是dependencyManagement中重复写依赖标签要写全version，
+				所以是完全覆盖重复依赖标签属性的作用，而不是补充重复依赖标签的属性的作用。
+				只做引入包例子参考。
+			 -->
+			<!-- 打包成war包部署到tomcat，需要在打包时去除内嵌tomcat，防止jar包冲突，eclipse直接运行时不去除 -->
+			<!-- <dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-tomcat</artifactId>
+				<scope>provided</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-test</artifactId>
+				<scope>test</scope>
+				<exclusions>
+					<exclusion>
+						<groupId>org.junit.vintage</groupId>
+						<artifactId>junit-vintage-engine</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.apache.tomcat.embed</groupId>
+				<artifactId>tomcat-embed-jasper</artifactId>
+				<scope>provided</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-devtools</artifactId>
+				<scope>runtime</scope>
+				<optional>true</optional>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-configuration-processor</artifactId>
+				<optional>true</optional>
+			</dependency> -->
+			
+			<!-- 数据库相关 -->
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<scope>runtime</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.mybatis.spring.boot</groupId>
+				<artifactId>mybatis-spring-boot-starter</artifactId>
+				<version>${mybatis-spring-boot-starter.version}</version>
+			</dependency>
+			
+			<!-- 开发工具类相关 -->
+			<!-- lombok -->
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<optional>true</optional>
+			</dependency>
+			
+			<!-- fastjson -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>${fastjson.version}</version>
+			</dependency>
+			
+			<!-- 生成二维码 -->
+			<dependency>
+				<groupId>com.google.zxing</groupId>
+				<artifactId>core</artifactId>
+				<version>${zxing.core.version}</version>
+			</dependency>
+			
+			<!-- 解析二维码 -->
+			<dependency>
+				<groupId>com.google.zxing</groupId>
+				<artifactId>javase</artifactId>
+				<version>${zxing.javase.version}</version>
+			</dependency>
+			
+			<!-- sun开发的java邮件组件 -->
+			<dependency>
+				<groupId>com.sun.mail</groupId>
+				<artifactId>javax.mail</artifactId>
+				<version>${javax-mail.version}</version>
+			</dependency>
+			<!-- JAF，用来处理数据的MIME类型数据。主要用来处理mail邮件的MIME，如附件等 -->
+			<dependency>
+				<groupId>com.sun.activation</groupId>
+				<artifactId>javax.activation</artifactId>
+				<version>${javax-activation.version}</version>
+			</dependency>
+			
+			<!-- jsoup网页解析工具 -->
+			<dependency>
+				<groupId>org.jsoup</groupId>
+				<artifactId>jsoup</artifactId>
+				<version>${jsoup.version}</version>
+			</dependency>
+			
+			<!-- Microsoft office文档生成解析工具 -->
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi-ooxml</artifactId>
+				<version>${poiooxml.version}</version>
+			</dependency>
+			
+			<!-- pagehelper分页组件，整合springboot需要在mybatis的bean配置中配置并添加进mybatis拦截器，比较麻烦 -->
+			<!-- <dependency>
+				<groupId>com.github.pagehelper</groupId>
+				<artifactId>pagehelper</artifactId>
+				<version>${pagehelper.version}</version>
+			</dependency> -->
+			
+			<!-- pagehelper的springboot整合包 -->
+			<dependency>
+				<groupId>com.github.pagehelper</groupId>
+				<artifactId>pagehelper-spring-boot-starter</artifactId>
+				<version>${pagehelper-starter.version}</version>
+			</dependency>
+			
+		</dependencies>
+	</dependencyManagement>
+	
+	<!-- 多环境配置有多种方法，单纯的maven的profile功能实际不建议用，因为换环境部署要修改这里的配置文件。
+		要结合springboot的profile功能，还有maven的资源占位符替换功能，maven的资源目录打包配置。
+		在执行maven打包命令时输入相应参数，达到切换环境的目的。
+		可以不进行资源目录打包配置，那样只是打包把-test -dev 的.propertis文件也打进包里，无伤大雅，但配置下可以追求极致。
+	 -->
+	<profiles>
+		<profile>
+			<!-- 开发环境 -->
+			<id>dev</id>
+			<properties>
+				<activatedProperty>dev</activatedProperty>
+			</properties>
+			<!-- maven打包时没有传profile参数时，默认执行这个profile -->
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<!-- 测试环境 -->
+			<id>test</id>
+			<properties>
+				<activatedProperty>test</activatedProperty>
+			</properties>
+		</profile>
+		<profile>
+			<!-- 生产环境 -->
+			<id>prd</id>
+			<properties>
+				<activatedProperty>prd</activatedProperty>
+			</properties>
+		</profile>
+	</profiles>
+</project>

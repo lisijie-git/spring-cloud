@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.lisijietech</groupId>
+		<artifactId>spring-cloud</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<!-- 
+			<relativePath/> lookup parent from repository,
+			直接从本地仓库的父级目录获取../pom.xml(注意是本地仓库路径)，不从本地路径获取，
+			但是本聚合模块的groupId继承父项目的groupId，本地仓库中目录是同一层，父层级找不到，会报错。
+			所以不能设置<relativePath/>，要么设置好本地路径../pom.xml，
+			<relativePath>../pom.xml</relativePath>
+			要么不设置此标签，默认会根据坐标去仓库找，
+			或者本模块groupId在添加一个子路径，如com.lisijietech.eureka，但是没必要。
+		 -->
+		<!-- <relativePath /> --> <!-- lookup parent from repository -->
+	</parent>
+	<!-- <groupId>com.lisijietech</groupId> -->
+	<artifactId>eureka-1</artifactId>
+	<!-- <version>0.0.1-SNAPSHOT</version> -->
+	<packaging>war</packaging>
+	
+	<properties>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<dependencies>
+		<!-- 注册中心可能用不着此starter包，待了解验证 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+		</dependency>
+		<!-- eureka-client客户端一般用在服务中，eureka-server一般包含了client，所以注册中心不需要client，重复了 -->
+		<!-- <dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency> -->
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
