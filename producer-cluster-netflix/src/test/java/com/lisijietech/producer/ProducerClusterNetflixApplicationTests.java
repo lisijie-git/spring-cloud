@@ -1,10 +1,10 @@
-package com.lisijietech.service;
+package com.lisijietech.producer;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class Service0ApplicationTests {
+class ProducerClusterNetflixApplicationTests {
 
 	@Test
 	void contextLoads() {

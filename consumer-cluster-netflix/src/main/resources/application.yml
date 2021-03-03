@@ -1,0 +1,8 @@
+spring:
+  jmx:
+    enabled: false
+  application:
+    name: consumer
+  #默认启动配置
+  profiles:
+    active: netflix0

@@ -47,6 +47,12 @@
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		
+		<!-- SpringCloud的2020版本，使用bootstrap.yml文件配置，需要引入依赖包。非必要不要用bootstrap命名文件配置 -->
+		<!-- <dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-bootstrap</artifactId>
+		</dependency> -->
 	</dependencies>
 	
 	<build>

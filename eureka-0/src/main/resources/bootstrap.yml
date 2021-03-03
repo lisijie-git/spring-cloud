@@ -1,7 +1,8 @@
 spring:
   jmx:
     enabled: false
-# spring应用名，集群可以写同一个名字，应该也能写不同的名字，因为负载均衡还是要通过详细配置，可能以后会根据名字自动负载均衡
+#spring应用名，注册中心集群写不同名字，也能写相同的名字。
+#使用ribbon负载均衡，服务集群可以写相同或不同的名字，根据使用组件配置。按照组件规则服务集群最好使用相同服务名。
   application:
     name: eureka-0
 server:  port: 8090
@@ -19,7 +20,7 @@ eureka:
 #表示eureka应用名字。
 #如果没有配置则使用spring.application.name的值。eureka.instance.appname的优先级更高。如果都没设置，则取unknow。
 #   appname: eureka-0
-#注册中心一般不需要配置。如果为true，则优先使用ip-address注册,如果ip-address没配置，默认使用第一个非会还ip地址。
+#注册中心一般不需要配置。如果为true，则优先使用ip-address注册,如果ip-address没配置，默认使用第一个非回环ip地址。
 #默认为false，使用hostname配置的值。
 #   prefer-ip-address: true
 #   ip-address: ${spring.cloud.client.ipAddress} 或者直接写ip地址127.0.0.1
@@ -47,4 +48,11 @@ eureka:
 #连带责任，个人理解是注册中心的管理粒度，可能以后框架会开发完善。
 #url的主机地址可以是域名，本地映射名，或者ip地址。
     service-url:
-#通过域名，本地自定义解析模拟多个域名。或者直接不模拟，直接写相同的回环ip地址或其他ip地址用端口port区分      defaultZone: http://${eureka.instance.hostname}:8091/eureka,http://eureka2:8092/eureka
+#经过测试，eureka无法通过端口port区分集群中的实例，所以需要区分主机名(域名、ip地址)。
+#设置的其他节点注册中心主机名和本节点相同，即${eureka.instance.hostname}，
+#本节点就不会向其节点注册本节点，不会同步其他节点信息，因为主机名相同。
+#通过域名，本地自定义解析模拟多个域名(localhost是默认映射域名，和直接写回环ip地址是区分的)。
+#或者直接写多个ip地址，或者ip和域名混用区分，但是就是主机名不能相同，相同的无法区分。
+#eureka注册中心服务端集群的数据同步是对等复制方式。
+#客户端向集群注册服务时具体过程有没有用到负载均衡待了解，目前了解只会向集群中一个正常工作注册中心注册服务，集群自己同步。
+      defaultZone: http://eureka1:8091/eureka,http://eureka2:8092/eureka

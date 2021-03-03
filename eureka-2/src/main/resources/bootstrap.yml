@@ -1,55 +1,20 @@
 spring:
   jmx:
     enabled: false
-# spring应用名，集群可以写同一个名字，应该也能写不同的名字，因为负载均衡还是要通过详细配置，可能以后会根据名字自动负载均衡
   application:
     name: eureka-2
 server:
   port: 8092
 
-#参考https://www.cnblogs.com/zyon/p/11023750.html
-#https://blog.csdn.net/acmman/article/details/99670419
-#https://www.cnblogs.com/xiaowangbangzhu/p/10396108.html
-#https://blog.csdn.net/acmman/article/details/99670419
 eureka:
   server:
-#自我保护机制，防止网络注册服务中心，因网络不好，某段时间统计心跳失败太多，而误清除实际存活的服务模块。
-#但这样也会拿到实际已经不存在的服务模块，所以客户端要有容错机制，如重试，断路器等。
-#自己设置是否需要自我保护机制，默认为true。
     enable-self-preservation: true
   instance:
-#表示eureka应用名字。
-#如果没有配置则使用spring.application.name的值。eureka.instance.appname的优先级更高。如果都没设置，则取unknow。
-#   appname: eureka-0
-#注册中心一般不需要配置。如果为true，则优先使用ip-address注册,如果ip-address没配置，默认使用第一个非会还ip地址。
-#默认为false，使用hostname配置的值。
-#   prefer-ip-address: true
-#   ip-address: ${spring.cloud.client.ipAddress} 或者直接写ip地址127.0.0.1
-#   instance-id元数据不配置，默认会按一定规则生成。此属性是一个实例的id标识
-#   instance-id: ${eureka.instance.ip-address}:${server.port}
-#eureka.instance.hostname，主机名(域名，本机ip映射名)。
-#在本机域名解析文件中windows是C:\Windows\System32\drivers\etc\hosts，linux是/etc/host自己编写域名映射。
     hostname: localhost
-#   删除服务的过期时间，默认90秒。时间间隔为最后一次服务中心接收到的心跳时间
     lease-expiration-duration-in-seconds: 120
-#   向服务中心发送心跳的时间间隔。集群是不是也通过这个完成同步，待了解。默认30秒
     lease-renewal-interval-in-seconds: 40
   client:
-#集群需要把自己的信息注册到服务注册中心(但有些文章此参数设置为false，不知道注册中心集群信息是不是单独的逻辑，待验证)
-#   register-with-eureka: true
     register-with-eureka: false
-#集群需要获取注册信息表(但有些文章此参数设置为false，不知道注册中心集群信息是不是单独的逻辑，待验证)
-#   fetch-registry: true
     fetch-registry: false
-#单机时候，设置自身注册自己(不知道设置自身会有什么影响，和register-with-eureka=true作用是否一样)，或者不设置。
-#集群的时候配置其他注册中心url，也可以自身注册中心url配置进去(不知道设置自身会有什么影响)。
-#集群注册中心互相注册达到同步时，因为是平等的，可以主从形式，或两两注册形成链就能全部同步，所以要找到一个合适的集群方式。
-#作为注册中心时，注册自身到自身，或不把自身注册到注册中心，
-#这些配置可能是和版本实现逻辑有关系，或者网络文章配置不正确，以后再验证。
-#作为服务模块时，客户端最好能把所有注册中心配置进去。某个注册中心宕机，客户端就去另一个注册中心注册，防止模块连带被清除。
-#连带责任，eureka集群某个节点宕机，其他节点同步信息时会清除宕机节点原先注册的服务。
-#连带责任，个人理解是注册中心的管理粒度，可能以后框架会开发完善。
-#url的主机地址可以是域名，本地映射名，或者ip地址。
     service-url:
-#通过域名，本地自定义解析模拟多个域名。或者直接不模拟，直接写相同的回环ip地址或其他ip地址用端口port区分
       defaultZone: http://127.0.0.1:8090/eureka,http://eureka1:8091/eureka

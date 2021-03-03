@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<!-- 
+		由于学习目的使用Netflix组件，2020版本以上大多不支持。
+		并且这个项目也学习2020版本以上SpringCloud。
+		所以这个项目SpringCloud版本混合，不能继承统一父pom版本统一管理。
+		要么不继承统一父pom，子项目自己管理继承SpringBoot和SpringCloud。
+		要么再创建间接pom分别管理不同版本依赖，不同版本依赖的子项目去继承相应pom来管理，
+		不知为什么无法import自己的pom类型的依赖，待了解。
+		最好就把不同版本项目分开，不在一个工程下。父pom通过实现版本管理，来让不同版本依赖的子项目使用。待学习。
+	 -->
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.3.5.RELEASE</version>
+		<!-- <version>2.4.3</version> -->
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	
@@ -17,12 +27,18 @@
 		<module>eureka-0</module>
 		<module>eureka-1</module>
 		<module>eureka-2</module>
+		<module>producer-cluster-netflix</module>
+		<module>consumer-cluster-netflix</module>
 	</modules>
 	
+	<!-- properties无法在parent中使用，无论此标签定义在什么位置 -->
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>1.8</java.version>
+		<!-- Hoxton.SR8版本应该是完全支持Netflix各种组件的最新版本。匹配的SpringBoot版本2.3.5.RELEASE -->
 		<spring-cloud.version>Hoxton.SR8</spring-cloud.version>
+		<!-- 2020.0.1版本开始变动很大，删除了很多Netflix组件。匹配的SpringBoot版本2.4.3 -->
+		<!-- <spring-cloud.version>2020.0.1</spring-cloud.version> -->
+		<java.version>1.8</java.version>
 		<mybatis-spring-boot-starter.version>2.1.3</mybatis-spring-boot-starter.version>
 		<fastjson.version>1.2.58</fastjson.version>
 		<jsoup.version>1.12.2</jsoup.version>
@@ -37,7 +53,27 @@
 	
 	<dependencyManagement>
 		<dependencies>
-			<!-- SpringCloud依赖导入 -->
+			<!-- 
+				SpringBoot的pom依赖包通过import方式导入。
+				原是通过parent标签继承，为了好管理版本改成import方式导入。
+				经过测试，import方式导入，只导入dependencyManagement，不导入pluginManagement。
+				插件使用会出现问题，如子项目的packaging要为war包，因为插件以及插件配置没有被继承，打war包就会报错。
+				所以作罢，了解用。
+			 -->
+			<!-- <dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-parent</artifactId>
+				<version>${spring-boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency> -->
+			
+			<!-- 
+				SpringCloud的pom依赖包通过import方式导入，相当于多继承，补充parent只能继承一个。
+				其他子项目继承本项目时，也会继承此import方式的pom依赖包。
+				所以子项目不用再通过import的方式重复导入SpringCloud的pom依赖包。
+				注意，SpringCloud和SpringBoot的版本需要匹配，否则会报错。
+			 -->
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
