@@ -27,18 +27,19 @@
 		<module>eureka-0</module>
 		<module>eureka-1</module>
 		<module>eureka-2</module>
-		<module>producer-cluster-netflix</module>
-		<module>consumer-cluster-netflix</module>
+		<module>rpc-api</module>
+		<module>service-cluster-netflix</module>
+		<module>gateway</module>
 	</modules>
 	
 	<!-- properties无法在parent中使用，无论此标签定义在什么位置 -->
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
 		<!-- Hoxton.SR8版本应该是完全支持Netflix各种组件的最新版本。匹配的SpringBoot版本2.3.5.RELEASE -->
 		<spring-cloud.version>Hoxton.SR8</spring-cloud.version>
 		<!-- 2020.0.1版本开始变动很大，删除了很多Netflix组件。匹配的SpringBoot版本2.4.3 -->
 		<!-- <spring-cloud.version>2020.0.1</spring-cloud.version> -->
-		<java.version>1.8</java.version>
 		<mybatis-spring-boot-starter.version>2.1.3</mybatis-spring-boot-starter.version>
 		<fastjson.version>1.2.58</fastjson.version>
 		<jsoup.version>1.12.2</jsoup.version>

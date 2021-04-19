@@ -1,0 +1,60 @@
+spring:
+  jmx:
+    enabled: false
+#默认启动配置。通过启动参数，激活不同的配置文件，达到服务集群，以及模拟不同服务的目的。
+  profiles:
+    active: producer0
+#开启SpringCloud负载均衡的重试机制
+  cloud:
+    loadbalancer:
+      retry:
+        enabled: true
+
+eureka:
+  instance:
+    hostname: localhost
+    lease-expiration-duration-in-seconds: 120
+    lease-renewal-interval-in-seconds: 40
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:8090/eureka,http://eureka1:8091/eureka,http://eureka2:8092/eureka
+
+#https://blog.csdn.net/rtxtitanv/article/details/106314763
+#https://www.cnblogs.com/sun-10387834/p/14167911.html
+#Ribbon的重试配置不知道是否起作用，没关系主要了解思路和作用
+#开启SpringCloud负载均衡的重试机制
+#spring:
+#  cloud:
+#    loadbalancer:
+#      retry:
+#        enabled: true
+
+#Ribbon全局配置，也可以针对某个服务配置
+ribbon:
+  ReadTimeout: 4000
+  ConnectTimeout: 4000
+  MaxAutoRetriesNextServer: 1
+  MaxAutoRetries: 1
+  OkToRetryOnAllOperations: true
+  retryableStatusCodes: 404,500,502
+  #开启饥饿加载
+  eager-load:
+    enabled: true
+#  NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+#文件配置方式的Ribbon全局配置，不起作用，会被java配置方式的配置覆盖，也会被默认全局方式覆盖。不起作用，原因以后再了解。
+#ribbon:
+#  NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+
+#针对服务的细粒度的文件配置方式的Ribbon配置
+#consumer:
+#  ribbon:
+#    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+
+#producer:
+#  ribbon:
+#    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
+
+#开启feign的hystrix断路器
+feign:  hystrix:    enabled: true

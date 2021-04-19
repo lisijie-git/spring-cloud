@@ -1,18 +1,0 @@
-spring:
-  jmx:
-    enabled: false
-  application:
-    name: producer
-  #默认启动配置
-  profiles:    active: netflix0
-
-eureka:
-  instance:
-    hostname: localhost
-    lease-expiration-duration-in-seconds: 120
-    lease-renewal-interval-in-seconds: 40
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://127.0.0.1:8090/eureka,http://eureka1:8091/eureka,http://eureka2:8092/eureka
