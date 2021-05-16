@@ -9,7 +9,9 @@ import com.lisijietech.service.module.rabbitmq.consumer.MyConsumer;
 import com.lisijietech.service.module.rabbitmq.producer.MyProducer;
 
 /**
- * RabbitMQ测试Controller层
+ * RabbitMQ测试Controller层。
+ * 原生RabbitMQ客户端测试，
+ * 当然也可以与Spring的AMQP集成，使用比较简单，或者Spring的Stream集成，以前项目用过，现在网上搜索出来的用的比较少。
  * @author LiSiJie
  * @date 2021年4月20日 上午2:20:09
  */
