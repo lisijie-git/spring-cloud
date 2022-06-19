@@ -30,6 +30,7 @@
 		<module>rpc-api</module>
 		<module>service-cluster-netflix</module>
 		<module>gateway</module>
+		<module>config-apollo</module>
 	</modules>
 	
 	<!-- properties无法在parent中使用，无论此标签定义在什么位置 -->

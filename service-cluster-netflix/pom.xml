@@ -91,6 +91,20 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-amqp</artifactId>
 		</dependency>
+		
+		<!-- 
+		缓存数据库相关，SpringBoot2.x后版本redis客户端默认是lettuce，使用jedis需要排除。
+		这里是单独学习jedis所以不用排除，直接定义配置jedis连接池bean。
+		-->
+		<!-- <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency> -->
+		
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+		</dependency>
 	</dependencies>
 	<!-- <dependencyManagement>
 		<dependencies>
