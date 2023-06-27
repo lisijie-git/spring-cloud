@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import com.lisijietech.service.module.rabbitmq.constant.RabbitMQConstant;
+import com.lisijietech.service.module.rabbitmq.util.RabbitMQClose;
 import com.rabbitmq.client.AMQP.BasicProperties;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -34,8 +35,6 @@ public class MyConsumer {
 		Channel channel = null;
 		try {
 			connection = connectionFactory.newConnection();
-			connection.createChannel();
-			
 			channel = connection.createChannel();
 			
 			DefaultConsumer consumer = new DefaultConsumer(channel) {
@@ -50,14 +49,14 @@ public class MyConsumer {
 			
 			//休眠是防止测试时，还没收到消息就断开连接了
 			TimeUnit.SECONDS.sleep(5);
-			channel.close();
-			connection.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (TimeoutException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
+		} finally {
+			RabbitMQClose.close(channel, connection);
 		}
 		
 	}

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 import com.lisijietech.service.module.rabbitmq.constant.RabbitMQConstant;
+import com.lisijietech.service.module.rabbitmq.util.RabbitMQClose;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -23,17 +24,19 @@ public class MyProducer {
 		connectionFactory.setHost(RabbitMQConstant.HOST);
 		connectionFactory.setPort(RabbitMQConstant.PORT);
 		connectionFactory.setVirtualHost("/");
+		//学习用，如果默认不写用户名和密码，ConnectionFactory的包中默认就是guest，是RabbitMQ默认账户。
+		//所以下两行代码是guest用户情况下可以不写。自定义创建用户就必须设置。
+//		connectionFactory.setUsername("guest");
+//		connectionFactory.setPassword("guest");
 		
 		Connection connection = null;
 		Channel channel = null;
 		try {
 			connection = connectionFactory.newConnection();
-			connection.createChannel();
-			
 			channel = connection.createChannel();
 			
 			channel.exchangeDeclare(
-					RabbitMQConstant.EXCHANGE_NAME,RabbitMQConstant.EXCHANGE_TYPE,false,false,false,null);
+					RabbitMQConstant.EXCHANGE_NAME,RabbitMQConstant.EXCHANGE_TYPE_TOPIC,false,false,false,null);
 			
 			channel.queueDeclare(RabbitMQConstant.QUEUE_NAME,false,false,false,null);
 			
@@ -48,12 +51,12 @@ public class MyProducer {
 					null,
 					msg.getBytes());
 			
-			channel.close();
-			connection.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (TimeoutException e) {
 			e.printStackTrace();
+		} finally {
+			RabbitMQClose.close(channel, connection);
 		}
 		
 	}
